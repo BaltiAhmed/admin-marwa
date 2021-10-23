@@ -115,7 +115,9 @@ export default function NavBar(props) {
           <Typography variant="h6" noWrap>
             Admin
           </Typography>
-          <SimpleMenu />
+          <div style={{marginLeft:'80%'}}>
+            <SimpleMenu />
+          </div>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -163,6 +165,15 @@ export default function NavBar(props) {
                 <DashboardIcon style={{ color: "#039be5" }} />
               </ListItemIcon>
               <ListItemText primary="Utilisateur" />
+            </ListItem>
+          </Link>
+          <Link to="/categorie" style={{ textDecoration: "none", color: "black" }}>
+            <ListItem button key="">
+              <ListItemIcon>
+                {" "}
+                <DashboardIcon style={{ color: "#039be5" }} />
+              </ListItemIcon>
+              <ListItemText primary="Categorie" />
             </ListItem>
           </Link>
         </List>

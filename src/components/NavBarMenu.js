@@ -40,7 +40,7 @@ export default function SimpleMenu() {
 
   return (
     <div style={{ marginLeft: "85%" }}>
-      {/* <IconButton
+      <IconButton
         aria-label="account of current user"
         aria-controls="menu-appbar"
         aria-haspopup="true"
@@ -48,9 +48,9 @@ export default function SimpleMenu() {
         color="inherit"
       >
         <div className={classes.root}>
-          <Avatar alt="Remy Sharp" src={`http://localhost:5000/${auth.user.photo}`} />
+          <Avatar alt="Admin" src={`http://localhost:5000/${auth.user.photo}`} />
         </div>
-      </IconButton> */}
+      </IconButton>
       <Menu
         id="menu-appbar"
         anchorEl={anchorEl}
@@ -70,7 +70,7 @@ export default function SimpleMenu() {
           to="/update-profile"
           style={{ textDecoration: "none", color: "black" }}
         >
-          <MenuItem onClick={handleClose}>Profile</MenuItem>
+          
         </Link>
 
         <MenuItem

@@ -22,6 +22,8 @@ import ChartsPage from "./views/chart";
 import ListSite from "./views/site/list";
 import Ajout from "./views/site/ajout";
 import ListClient from "./views/client/list";
+import ListCategorie from "./views/categorie/list";
+
 
 
 function App() {
@@ -35,6 +37,8 @@ function App() {
         <Route  path="/site" component={ListSite} />
         <Route  path="/ajout-site" component={Ajout} />
         <Route  path="/client" component={ListClient} />
+        <Route  path="/categorie" component={ListCategorie} />
+        
         
 
       </React.Fragment>

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Form, Button, Col, Container, Row, Image } from 'react-bootstrap';
+import { Form, Button, Col, Container, Row, Image } from "react-bootstrap";
 import ErrorModel from "../../models/error-model";
 import SuccessModel from "../../models/success-model";
 import axios from "axios";
@@ -131,6 +131,26 @@ const Ajout = (props) => {
     }
   };
 
+  const [list, setList] = useState();
+  useEffect(() => {
+    const sendRequest = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/categorie/`);
+
+        const responseData = await response.json();
+        if (!response.ok) {
+          throw new Error(responseData.message);
+        }
+
+        setList(responseData.categorie);
+      } catch (err) {
+        seterror(err.message);
+      }
+    };
+
+    sendRequest();
+  }, []);
+
   return (
     <div style={{ marginTop: "5%" }}>
       <Container>
@@ -217,8 +237,7 @@ const Ajout = (props) => {
                   onChange={onchange}
                   required
                 >
-                  <option>Choose...</option>
-                  <option>...</option>
+                  {list && list.map((row) => <option>{row.nom}</option>)}
                 </Form.Control>
               </Form.Group>
 
