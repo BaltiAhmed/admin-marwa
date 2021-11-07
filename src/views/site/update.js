@@ -3,8 +3,10 @@ import { Form, Button, Col, Container, Row, Image } from "react-bootstrap";
 import ErrorModel from "../../models/error-model";
 import SuccessModel from "../../models/success-model";
 import axios from "axios";
+import { useParams } from "react-router-dom";
+import { TextField } from "@material-ui/core";
 
-const Ajout = (props) => {
+const UpdateSite = (props) => {
   const [lat, setlat] = useState();
   const [long, setLong] = useState();
   const sucessCallback = (position) => {
@@ -19,7 +21,7 @@ const Ajout = (props) => {
   };
   navigator.geolocation.getCurrentPosition(sucessCallback, errorCallback);
 
-  const [File, setFile] = useState();
+  const [File, setFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState();
   const [isValid, setIsValid] = useState(false);
 
@@ -88,47 +90,38 @@ const Ajout = (props) => {
       setdescription(e.target.value);
     } else if (e.target.name === "categorie") {
       setcategorie(e.target.value);
-      console.log(categorie)
     }
   };
 
+  const id = useParams().id;
+
   const submit = async (event) => {
     event.preventDefault();
-    console.log(
-      nom,
-      email,
-      password,
-      descrption,
-      adresse,
-      gouvernorat,
-      long,
-      lat,
-      tel,
-      categorie,
-      capacite
-    );
 
-    try {
-      const formData = new FormData();
+    if (File !== null) {
+      try {
+        const formData = new FormData();
 
-      formData.append("image", File);
-      formData.append("nom", nom);
-      formData.append("email", email);
-      formData.append("password", password);
-      formData.append("description", descrption);
-      formData.append("adresse", adresse);
-      formData.append("gouvernorat", gouvernorat);
-      formData.append("long", long);
-      formData.append("lat", lat);
-      formData.append("tel", tel);
-      formData.append("categorie", categorie);
-      formData.append("capacite", capacite);
+        formData.append("image", File);
+        formData.append("nom", nom);
+        formData.append("email", email);
+        formData.append("description", descrption);
+        formData.append("adresse", adresse);
+        formData.append("gouvernorat", gouvernorat);
+        formData.append("long", long);
+        formData.append("lat", lat);
+        formData.append("tel", tel);
+        formData.append("categorie", categorie);
+        formData.append("capacite", capacite);
 
-      await axios.post(`http://localhost:5000/api/site/signup`, formData);
+        await axios.patch(`http://localhost:5000/api/site/${id}`, formData);
 
-      setsuccess("Site est bien cree");
-    } catch (err) {
-      seterror(err.message || "il y a un probleme");
+        setsuccess("Votre site est bien modifier");
+      } catch (err) {
+        seterror(err.message || "il y a un probleme");
+      }
+    } else {
+      seterror("Choisir une nouvelle image");
     }
   };
 
@@ -150,6 +143,31 @@ const Ajout = (props) => {
     };
 
     sendRequest();
+
+    const sendRequest1 = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/site/${id}`);
+
+        const responseData = await response.json();
+        if (!response.ok) {
+          throw new Error(responseData.message);
+        }
+
+        setNom(responseData.site.nom);
+        setemail(responseData.site.email);
+        setcategorie(responseData.site.categorie);
+        setgouvernorat(responseData.site.gouvernorat);
+        setcapacite(responseData.site.capacite);
+        setdescription(responseData.site.description);
+        settel(responseData.site.tel);
+        setadress(responseData.site.adresse);
+        setPreviewUrl("http://localhost:5000/" + responseData.site.photo);
+      } catch (err) {
+        seterror(err.message);
+      }
+    };
+
+    sendRequest1();
   }, []);
 
   return (
@@ -200,6 +218,7 @@ const Ajout = (props) => {
                 <Form.Group as={Col} controlId="formGridEmail">
                   <Form.Label>Nom</Form.Label>
                   <Form.Control
+                    value={nom}
                     placeholder="Entrer votre nom"
                     name="nom"
                     onChange={onchange}
@@ -210,6 +229,7 @@ const Ajout = (props) => {
                 <Form.Group as={Col} controlId="formGridPassword">
                   <Form.Label>Email</Form.Label>
                   <Form.Control
+                    value={email}
                     type="email"
                     placeholder="Email"
                     name="email"
@@ -222,6 +242,7 @@ const Ajout = (props) => {
               <Form.Group controlId="formGridState">
                 <Form.Label>Categorie</Form.Label>
                 <Form.Control
+                  value={categorie}
                   as="select"
                   name="categorie"
                   onChange={onchange}
@@ -235,6 +256,7 @@ const Ajout = (props) => {
                 <Form.Group as={Col} controlId="formGridCity">
                   <Form.Label>Addresse</Form.Label>
                   <Form.Control
+                    value={adresse}
                     placeholder="Adresse"
                     name="adresse"
                     onChange={onchange}
@@ -245,6 +267,7 @@ const Ajout = (props) => {
                 <Form.Group as={Col} controlId="formGridState">
                   <Form.Label>Gouvernorat</Form.Label>
                   <Form.Control
+                    value={gouvernorat}
                     as="select"
                     name="gouvernerat"
                     onChange={onchange}
@@ -259,6 +282,7 @@ const Ajout = (props) => {
               <Form.Group controlId="formGridCity">
                 <Form.Label>Téléphone</Form.Label>
                 <Form.Control
+                  value={tel}
                   placeholder="Téléphone"
                   name="tel"
                   onChange={onchange}
@@ -269,6 +293,7 @@ const Ajout = (props) => {
               <Form.Group controlId="formGridCity">
                 <Form.Label>Capacité</Form.Label>
                 <Form.Control
+                  value={capacite}
                   placeholder="Capacité"
                   type="number"
                   name="cap"
@@ -280,6 +305,7 @@ const Ajout = (props) => {
               <Form.Group controlId="exampleForm.ControlTextarea1">
                 <Form.Label>Description</Form.Label>
                 <Form.Control
+                  value={descrption}
                   as="textarea"
                   rows={5}
                   name="description"
@@ -289,7 +315,7 @@ const Ajout = (props) => {
               </Form.Group>
 
               <Button variant="primary" type="submit">
-                Valider
+                Modifier
               </Button>
             </Form>
           </Col>
@@ -300,4 +326,4 @@ const Ajout = (props) => {
   );
 };
 
-export default Ajout;
+export default UpdateSite;

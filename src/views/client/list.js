@@ -73,7 +73,7 @@ const ListClient = (props) => {
   console.log(list);
 
   return (
-    <div>
+    <div style={{height:"100vh"}}>
       <Container>
         <Row>
           <Col></Col>

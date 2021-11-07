@@ -23,8 +23,9 @@ import ListSite from "./views/site/list";
 import Ajout from "./views/site/ajout";
 import ListClient from "./views/client/list";
 import ListCategorie from "./views/categorie/list";
-
-
+import image from "./images/image.jpg";
+import { height } from "@mui/system";
+import UpdateSite from "./views/site/update";
 
 function App() {
   const { userId, token, login, logout, user } = UserAuth();
@@ -34,13 +35,11 @@ function App() {
     routes = (
       <React.Fragment>
         <Route exact path="/" component={ChartsPage} />
-        <Route  path="/site" component={ListSite} />
-        <Route  path="/ajout-site" component={Ajout} />
-        <Route  path="/client" component={ListClient} />
-        <Route  path="/categorie" component={ListCategorie} />
-        
-        
-
+        <Route path="/site" component={ListSite} />
+        <Route path="/ajout-site" component={Ajout} />
+        <Route path="/client" component={ListClient} />
+        <Route path="/categorie" component={ListCategorie} />
+        <Route path="/update-site/:id" component={UpdateSite} />
       </React.Fragment>
     );
   } else {
@@ -52,19 +51,36 @@ function App() {
   }
 
   return (
-    <Authcontext.Provider
-      value={{
-        userId: userId,
-        token: token,
-        login: login,
-        logout: logout,
-        user: user,
+    <div
+      style={{
+        backgroundImage: "url(" + image + ")",
+        backgroundSize: "cover",
+        /* backgroundRepeat: "no-repeat", */
+        position: "absolute",
+        //height: "100vh",
+        width: "100%",
+        backgroundPosition: "center",
+        backgroundRepeat:"repeat-y",
+        top:"0px",
+        bottom:"0px",
+        height:"fit-content"
       }}
     >
-      <BrowserRouter>
-        {!token ? <Login /> : <NavBar content={routes} />}
-      </BrowserRouter>
-    </Authcontext.Provider>
+      <Authcontext.Provider
+        value={{
+          userId: userId,
+          token: token,
+          login: login,
+          logout: logout,
+          user: user,
+        }}
+      >
+        
+        <BrowserRouter>
+          {!token ? <Login /> : <div><NavBar  /> {routes} </div>}
+        </BrowserRouter>
+      </Authcontext.Provider>
+    </div>
   );
 }
 

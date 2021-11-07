@@ -53,54 +53,59 @@ const Login = (props) => {
         throw new Error(responsedata.message);
       }
 
-      auth.login(responsedata.admin,responsedata.admin._id, responsedata.token);
+      auth.login(
+        responsedata.admin,
+        responsedata.admin._id,
+        responsedata.token
+      );
     } catch (err) {
       console.log(err);
       seterror(err.message || "probleme!!");
     }
   };
   return (
-    <Container>
-      <Row>
-        <Col></Col>
-        <Col xs={6}>
-          
-          <form style={{ marginTop: "30%" }} onSubmit={submit}>
-            <ErrorModel error={error} />
-            <SuccessModel success={success} />
-            <p className="h5 text-center mb-4">Authentification</p>
-            <div className="grey-text">
-              <MDBInput
-                label="Entrer votre email"
-                icon="envelope"
-                group
-                type="email"
-                validate
-                error="wrong"
-                success="right"
-                name="email"
-                onChange={onchange}
-                required
-              />
-              <MDBInput
-                label="Entrer votre mot de passe"
-                icon="lock"
-                group
-                type="password"
-                validate
-                name="password"
-                onChange={onchange}
-                required
-              />
-            </div>
-            <div className="text-center">
-              <MDBBtn type="submit">Valider</MDBBtn>
-            </div>
-          </form>
-        </Col>
-        <Col></Col>
-      </Row>
-    </Container>
+    <div style={{ height: "100vh" }}>
+      <Container>
+        <Row>
+          <Col></Col>
+          <Col xs={6}>
+            <form style={{ marginTop: "30%" }} onSubmit={submit}>
+              <ErrorModel error={error} />
+              <SuccessModel success={success} />
+              <p className="h5 text-center mb-4">Authentification</p>
+              <div className="grey-text">
+                <MDBInput
+                  label="Entrer votre email"
+                  icon="envelope"
+                  group
+                  type="email"
+                  validate
+                  error="wrong"
+                  success="right"
+                  name="email"
+                  onChange={onchange}
+                  required
+                />
+                <MDBInput
+                  label="Entrer votre mot de passe"
+                  icon="lock"
+                  group
+                  type="password"
+                  validate
+                  name="password"
+                  onChange={onchange}
+                  required
+                />
+              </div>
+              <div className="text-center">
+                <MDBBtn type="submit">Valider</MDBBtn>
+              </div>
+            </form>
+          </Col>
+          <Col></Col>
+        </Row>
+      </Container>
+    </div>
   );
 };
 

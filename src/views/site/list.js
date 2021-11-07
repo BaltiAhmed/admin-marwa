@@ -13,6 +13,8 @@ import SuccessModel from "../../models/success-model";
 import AccessibilityIcon from "@mui/icons-material/Accessibility";
 import { Link } from "react-router-dom";
 import AjoutBTN from "../../components/btnAjout";
+import UpdateIcon from "@material-ui/icons/Update";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -97,6 +99,7 @@ const ListSite = (props) => {
                     <StyledTableCell align="right">Categorie</StyledTableCell>
                     <StyledTableCell align="right">Capacité</StyledTableCell>
                     <StyledTableCell align="right">Description</StyledTableCell>
+                    <StyledTableCell align="right">Action</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -134,6 +137,38 @@ const ListSite = (props) => {
 
                         <StyledTableCell align="right">
                           {row.description}
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                          <Link to={`/update-site/${row._id}`}>
+                            <UpdateIcon style={{ color: "green" }} />
+                          </Link>
+                          <DeleteForeverIcon
+                            style={{ color: "red" }}
+                            onClick={async (event) => {
+                              try {
+                                let response = await fetch(
+                                  `http://localhost:5000/api/site/${row._id}`,
+                                  {
+                                    method: "DELETE",
+                                    headers: {
+                                      "Content-Type": "application/json",
+                                    },
+                                  }
+                                );
+                                let responsedata = await response.json();
+                                if (!response.ok) {
+                                  throw new Error(responsedata.message);
+                                }
+                                setList(
+                                  list.filter((el) => el._id !== row._id)
+                                );
+                                setsuccess("Site bien suprimer");
+                              } catch (err) {
+                                console.log(err);
+                                seterror(err.message || "il y a un probleme");
+                              }
+                            }}
+                          />
                         </StyledTableCell>
                       </StyledTableRow>
                     ))}
