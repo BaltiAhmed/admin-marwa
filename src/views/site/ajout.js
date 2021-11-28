@@ -261,6 +261,7 @@ const Ajout = (props) => {
                 <Form.Control
                   placeholder="Téléphone"
                   name="tel"
+                  type="number"
                   onChange={onchange}
                   required
                 />

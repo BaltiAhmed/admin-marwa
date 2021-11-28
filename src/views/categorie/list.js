@@ -17,6 +17,8 @@ import { Link } from "react-router-dom";
 import AjoutBTN from "../../components/btnAjout";
 import { Authcontext } from "../../context/auth-context";
 import { Image } from "react-bootstrap";
+import AddCategorie from "../../components/AddCategorie";
+
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -158,6 +160,7 @@ export default function ListCategorie() {
                         </StyledTableCell>
 
                         <StyledTableCell align="right">
+                        <AddCategorie nom={row.nom} id={row._id} />
                           <DeleteForeverIcon
                             style={{ color: "red" }}
                             onClick={async (event) => {
